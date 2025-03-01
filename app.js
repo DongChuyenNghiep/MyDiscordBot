@@ -181,19 +181,6 @@ async function checkForUpdates() {
     }
 }
 
-// Khi bot sẵn sàng
-client.once("ready", async () => {
-    console.log(`🤖 Bot đã đăng nhập với tên ${client.user.tag}`);
-    const guild = await client.guilds.fetch(GUILD_ID);
-    await fetchAllMembers(guild);
-    setInterval(checkForUpdates, CHECK_INTERVAL);
-});
-
-// Đăng nhập bot
-client.login(TOKEN);
-
-// ========================
-// 🌐 Khởi tạo Express server để Render nhận diện
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -204,3 +191,22 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
     console.log(`🌐 Express server is running on port ${PORT}`);
 });
+
+// 🌍 Ping chính server của nó mỗi 10 giây để Render không đưa vào trạng thái ngủ
+const SERVER_URL = `https://mydiscordbotaov.onrender.com:${PORT}`;
+
+setInterval(() => {
+    axios.get(SERVER_URL)
+        .then(() => console.log("🔄 Ping chính server để giữ bot hoạt động"))
+        .catch(err => console.error("❌ Lỗi khi ping server:", err.message));
+}, 10000); // 10 giây
+
+// Đăng nhập bot Discord
+client.once("ready", async () => {
+    console.log(`🤖 Bot đã đăng nhập với tên ${client.user.tag}`);
+    const guild = await client.guilds.fetch(GUILD_ID);
+    await fetchAllMembers(guild);
+    setInterval(checkForUpdates, CHECK_INTERVAL);
+});
+
+client.login(TOKEN);
