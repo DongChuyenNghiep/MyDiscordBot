@@ -88,7 +88,7 @@ async function fetchAllMembers(guild) {
     try {
         console.log("🔄 Fetching all members in the server...");
         await guild.members.fetch();
-        console.log(`✅ Fetch hoàn tất! Đã lấy ${guild.members.cache.size} thành viên.`);
+        console.log(`✅ Fetch hoàn tất! Tổng số thành viên: ${guild.memberCount}`);
     } catch (error) {
         console.error("❌ Lỗi khi fetch toàn bộ thành viên:", error);
     }
@@ -201,6 +201,4 @@ app.get("/", (req, res) => {
     res.send("Bot is running!");
 });
 
-app.listen(PORT, () => {
-    console.log(`🌐 Express server is running on port ${PORT}`);
-});
+
