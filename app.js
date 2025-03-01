@@ -201,4 +201,6 @@ app.get("/", (req, res) => {
     res.send("Bot is running!");
 });
 
-
+app.listen(PORT, () => {
+    console.log(`🌐 Express server is running on port ${PORT}`);
+});
